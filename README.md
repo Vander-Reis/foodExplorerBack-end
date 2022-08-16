@@ -53,6 +53,8 @@ git clone https://github.com/Vander-Reis/foodExplorerBack-end
 ## Usage
 To use this project, follow the steps above:
 ```bash
+$ npm install
+
 $ npx knex migrate:latest
 
 $ npx knex seed:run
