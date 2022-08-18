@@ -37,41 +37,40 @@ class PlatesController {
 
     let plates;
 
-    // verificar se existe ingredientes
+    // se existir ingredientes
     if (ingredients) {
-      const filterIngredients = ingredients.split(",").map((tag) => tag.trim());
+      const filterIngredients = ingredients.split(',').map(tag => tag.trim());
 
-      plates = await knex("ingredients")
+      plates = await knex('ingredients')
         .select([
-          "plates.id",
-          "plates.title",
-          "plates.description",
-          "plates.price",
-          "plates.img",
+          'plates.id',
+          'plates.title',
+          'plates.description',
+          'plates.price',
+          'plates.img',
         ])
-        .whereLike("plates.title", `%${title}%`)
-        .whereIn("name", filterIngredients)
-        .innerJoin("plates", "plates.id", "ingredients.plates_id")
-        .groupBy("plates.id")
-        .orderBy("plates.title");
-    }
-    else {
-        plates = await knexfile("plates")
-        .whereLike("title", `%${title}%`)
-        .orderBy("title");
+        .whereLike('plates.title', `%${title}%`)
+        .whereIn('name', filterIngredients)
+        .innerJoin('plates', 'plates.id', 'ingredients.plates_id')
+        .groupBy('plates.id')
+        .orderBy('plates.title');
+    } else {
+      plates = await knex('plates')
+        .whereLike('title', `%${title}%`)
+        .orderBy('title');
     }
 
-    const listIngredients = await knex("ingredients");
+    const listIngredients = await knex('ingredients');
 
     const platesWithIngredients = plates.map(plate => {
-        const plateIngredients = listIngredients.filter(
-            ingredient => ingredient.plates_id === plate.id
-        );
+      const plateIngredients = listIngredients.filter(
+        ingredient => ingredient.plates_id === plate.id
+      );
 
-        return{
-            ...plate,
-            ingredients: plateIngredients,
-        };
+      return {
+        ...plate,
+        ingredients: plateIngredients,
+      };
     });
 
     return response.json(platesWithIngredients);
