@@ -9,7 +9,7 @@ async function ensureIsAdmin(request, response, next) {
 
     const isAdmin = user[0].is_admin;
 
-    if(isAdmin) {
+    if(!isAdmin) {
         throw new AppError("Você não é um administrador", 401);
     }
 

@@ -11,6 +11,8 @@ class PlatesController {
 
     const filename = await diskStorage.saveFile(imgFilename);
 
+    console.log(title, description, ingredients, price, type);
+
     const plates_id = await knex("plates").insert({
       img: filename,
       title,
@@ -19,6 +21,7 @@ class PlatesController {
       type,
     });
 
+    
     const ingredientsInsert = ingredients.map((name) => ({
       name,
       plates_id,
